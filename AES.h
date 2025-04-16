@@ -1,5 +1,4 @@
 																																//S-box
-
 unsigned char SBox[256] = {
 //0     1    2      3     4    5     6     7      8    9     A      B    C     D     E     F
 0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76, //0
@@ -328,11 +327,18 @@ for (i = 0; i < 4; i++)
 }
 
 																																	//defining encryption function
-void Cipher(unsigned char state[4][4], word w[44])
+void Cipher(unsigned char input[16], word w[44])
 {
+unsigned char  state[4][4];
 int roundnum;
 int i,j;
-
+for (int j = 0; j < 4; j++)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            state[i][j] = input[4 * j + i];
+        }
+    }
 addrkey ( state,0, w );
 
 for(roundnum=1;roundnum<10;roundnum++)
@@ -348,16 +354,29 @@ subbyte(state);
 shiftrow(state);
 addrkey(state,10, w);
 
-
+for (int j = 0; j < 4; j++)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            input[4 * j + i]=state[i][j] ;
+        }
+    }
 }
 
 
 																																	//defining dycripction function
-void DeCipher(unsigned char state[4][4], word w[44])
+void DeCipher(unsigned char input[16], word w[44])
 {
+unsigned char state[4][4];
 int roundnum;
 int i,j;
-
+for (int j = 0; j < 4; j++)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            state[i][j] = input[4 * j + i];
+        }
+    }
 addrkey ( state,10, w );
 for(roundnum=9;roundnum>0;roundnum--)
 
@@ -371,7 +390,13 @@ invmixcoloumn(state);
 invshiftrow(state);
 invsubbyte(state);
 addrkey(state,0, w);
-
+for (int j = 0; j < 4; j++)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            input[4 * j + i]=state[i][j] ;
+        }
+    }
 }
 
 

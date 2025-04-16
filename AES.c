@@ -31,21 +31,17 @@ int main()
     
    // Perform AES encryption and decryption
     
-    Cipher(state, w);
-    DeCipher(state, w);
+    Cipher(input, w);
+    
+    DeCipher(input, w);
 
    // Print the state array
     
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 16; i++)
     {
-        printf("%d: ", i);
-        for (int j = 0; j < 4; j++)
-        {
-            printf("%02x ", state[i][j]);
-        }
-        printf("\n");
+        printf("%02x  ", input[i]);
     }
-
+	//checking equality of input and output text, for correctness. 
     return 0;
     
 }
